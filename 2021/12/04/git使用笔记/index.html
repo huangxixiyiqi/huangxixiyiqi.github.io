@@ -20,23 +20,27 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta name="description" content="Git使用配置用户名与邮箱git config --global user.name &quot;kuangshen&quot;  #名称 git config --global user.email 24736743@qq.com   #邮箱 配置在c盘用户目录下的 .gitconfig 设置本机绑定SSH公钥 实现免登陆123# 进入 C:\Users\Administrator\.ssh 目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git使用笔记">
+<meta property="og:url" content="http://example.com/2021/12/04/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Git使用配置用户名与邮箱git config --global user.name &quot;kuangshen&quot;  #名称 git config --global user.email 24736743@qq.com   #邮箱 配置在c盘用户目录下的 .gitconfig 设置本机绑定SSH公钥 实现免登陆123# 进入 C:\Users\Administrator\.ssh 目">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-04T14:21:19.000Z">
+<meta property="article:modified_time" content="2021-12-04T14:21:31.203Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/12/04/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2021/12/04/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/","path":"2021/12/04/git使用笔记/","title":"git使用笔记"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hexo</title>
+<title>git使用笔记 | Hexo</title>
   
 
 
@@ -62,7 +66,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Hexo</h1>
+      <p class="site-title">Hexo</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -90,7 +94,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -103,6 +107,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">Git使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E4%B8%8E%E9%82%AE%E7%AE%B1"><span class="nav-number">1.1.</span> <span class="nav-text">配置用户名与邮箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%9C%AC%E6%9C%BA%E7%BB%91%E5%AE%9ASSH%E5%85%AC%E9%92%A5-%E5%AE%9E%E7%8E%B0%E5%85%8D%E7%99%BB%E9%99%86"><span class="nav-number">1.2.</span> <span class="nav-text">设置本机绑定SSH公钥 实现免登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.</span> <span class="nav-text">Git命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93"><span class="nav-number">1.3.1.</span> <span class="nav-text">初始化仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.3.2.</span> <span class="nav-text">克隆远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81"><span class="nav-number">1.3.3.</span> <span class="nav-text">查看文件状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.3.4.</span> <span class="nav-text">上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%86%E4%BF%AE%E6%94%B9%E7%9A%84%E5%86%85%E5%AE%B9%E4%B8%8A%E4%BC%A0%E8%87%B3%E8%87%AA%E5%B7%B1%E7%9A%84%E5%88%86%E6%94%AF"><span class="nav-number">1.3.5.</span> <span class="nav-text">2.将修改的内容上传至自己的分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%90%88%E5%B9%B6-Merge"><span class="nav-number">1.3.6.</span> <span class="nav-text">3.合并 Merge</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pull%E6%8B%89%E5%8F%96%E6%98%AF%E7%9B%B4%E6%8E%A5%E6%8B%89%E5%8F%96%E5%88%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93"><span class="nav-number">1.4.</span> <span class="nav-text">pull拉取是直接拉取到本地仓库</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -144,16 +149,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -166,9 +172,9 @@
       <meta itemprop="name" content="Hexo">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/04/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">git使用笔记</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          git使用笔记
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -192,7 +198,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Git使用"><a href="#Git使用" class="headerlink" title="Git使用"></a>Git使用</h1><h2 id="配置用户名与邮箱"><a href="#配置用户名与邮箱" class="headerlink" title="配置用户名与邮箱"></a>配置用户名与邮箱</h2><p><code>git config --global user.name &quot;kuangshen&quot;  #名称</code></p>
+        <h1 id="Git使用"><a href="#Git使用" class="headerlink" title="Git使用"></a>Git使用</h1><h2 id="配置用户名与邮箱"><a href="#配置用户名与邮箱" class="headerlink" title="配置用户名与邮箱"></a>配置用户名与邮箱</h2><p><code>git config --global user.name &quot;kuangshen&quot;  #名称</code></p>
 <p><code>git config --global user.email 24736743@qq.com   #邮箱</code></p>
 <p>配置在c盘用户目录下的 .gitconfig</p>
 <h2 id="设置本机绑定SSH公钥-实现免登陆"><a href="#设置本机绑定SSH公钥-实现免登陆" class="headerlink" title="设置本机绑定SSH公钥 实现免登陆"></a>设置本机绑定SSH公钥 实现免登陆</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 进入 C:\Users\Administrator\.ssh 目录</span><br><span class="line"># 生成公钥</span><br><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
@@ -244,7 +250,6 @@ git checkout 分支名 #可以切换到该分支
 <p><code>git push</code></p>
 <h2 id="pull拉取是直接拉取到本地仓库"><a href="#pull拉取是直接拉取到本地仓库" class="headerlink" title="pull拉取是直接拉取到本地仓库"></a>pull拉取是直接拉取到本地仓库</h2><p>如果pull超时，且你在科学上网。就先关掉vpn再拉取。</p>
 
-      
     </div>
 
     
@@ -252,150 +257,22 @@ git checkout 分支名 #可以切换到该分支
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/04/My-New-Post/" rel="prev" title="My New Post">
+                  <i class="fa fa-chevron-left"></i> My New Post
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/My-New-Post/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/04/My-New-Post/" class="post-title-link" itemprop="url">My New Post</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-04 22:16:15" itemprop="dateCreated datePublished" datetime="2021-12-04T22:16:15+08:00">2021-12-04</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/04/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-12-04 22:09:48" itemprop="dateCreated datePublished" datetime="2021-12-04T22:09:48+08:00">2021-12-04</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
