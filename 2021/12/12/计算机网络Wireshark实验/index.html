@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#4fb9b5"><meta name="author" content="黄嘻嘻"><meta name="copyright" content="黄嘻嘻"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>计算机网络Wireshark实验 | 黄嘻嘻</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#4fb9b5"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"huangxixiyiqi.github.io","root":"/","title":"黄嘻嘻","version":"1.7.0","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="数据链路层实作一 熟悉Ethernet帧结构1． 打开WireShark，点击捕获，点击选项 2． 然后打开cmd，ping qige.io   3.在过滤器上输入关键词，ip.addr &#x3D;&#x3D; ping的ip   4. 前六位为目的MAC    目的MAC后六位为源MAC    源MAC后两位为类型       问题：你会发现WireShark给我们的帧中没有校验字段，请了解一下原因 ​    因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络Wireshark实验">
+<meta property="og:url" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:site_name" content="黄嘻嘻">
+<meta property="og:description" content="数据链路层实作一 熟悉Ethernet帧结构1． 打开WireShark，点击捕获，点击选项 2． 然后打开cmd，ping qige.io   3.在过滤器上输入关键词，ip.addr &#x3D;&#x3D; ping的ip   4. 前六位为目的MAC    目的MAC后六位为源MAC    源MAC后两位为类型       问题：你会发现WireShark给我们的帧中没有校验字段，请了解一下原因 ​    因">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D6.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D7.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D8.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D9.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17DA.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6952.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6953.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6963.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6964.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6965.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6966.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6967.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6968.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6969.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4227.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4228.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4238.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4239.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423A.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423B.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423C.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423D.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsBD60.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps910D.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps910E.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD2.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD3.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD4.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD5.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE950.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE951.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE961.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB8E.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB8F.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB9F.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA0.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA1.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA2.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6385.tmp.jpg">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6386.tmp.jpg">
+<meta property="article:published_time" content="2021-12-12T09:48:20.000Z">
+<meta property="article:modified_time" content="2021-12-12T09:59:51.046Z">
+<meta property="article:author" content="黄嘻嘻">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D6.tmp.jpg"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="黄嘻嘻"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="黄嘻嘻"><span class="site-author-status" title="Looking for dawn.">🌑</span></a><div class="site-author-name"><a href="/about/">黄嘻嘻</a></div><span class="site-name">黄嘻嘻</span><sub class="site-subtitle"></sub><div class="site-desciption">相信奇迹的人，比奇迹更伟大</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">3</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">2</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/huangxixiyiqi" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=263055994102977" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/237302208" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">数据链路层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%80-%E7%86%9F%E6%82%89Ethernet%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="toc-text">实作一 熟悉Ethernet帧结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%BA%8C-%E4%BA%86%E8%A7%A3%E5%AD%90%E7%BD%91%E5%86%85-%E5%A4%96%E9%80%9A%E4%BF%A1%E6%97%B6%E7%9A%84MAC%E5%9C%B0%E5%9D%80"><span class="toc-text">实作二 了解子网内&#x2F;外通信时的MAC地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%89-%E6%8E%8C%E6%8F%A1ARP%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="toc-text">实作三 掌握ARP解析过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-text">网络层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%80-%E7%86%9F%E6%82%89-IP-%E5%8C%85%E7%BB%93%E6%9E%84"><span class="toc-text">实作一 熟悉 IP 包结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%BA%8C-IP-%E5%8C%85%E7%9A%84%E5%88%86%E6%AE%B5%E4%B8%8E%E9%87%8D%E7%BB%84"><span class="toc-text">实作二 IP 包的分段与重组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%89-%E8%80%83%E5%AF%9F-TTL-%E4%BA%8B%E4%BB%B6"><span class="toc-text">实作三 考察 TTL 事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-text">传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%80-%E7%86%9F%E6%82%89-TCP-%E5%92%8C-UDP-%E6%AE%B5%E7%BB%93%E6%9E%84"><span class="toc-text">实作一 熟悉 TCP 和 UDP 段结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-text">应用层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%B8%80-%E4%BA%86%E8%A7%A3-DNS-%E8%A7%A3%E6%9E%90"><span class="toc-text">实作一 了解 DNS 解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%9C%E4%BA%8C-%E4%BA%86%E8%A7%A3-HTTP-%E7%9A%84%E8%AF%B7%E6%B1%82%E5%92%8C%E5%BA%94%E7%AD%94"><span class="toc-text">实作二 了解 HTTP 的请求和应答</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="黄嘻嘻"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="黄嘻嘻"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">计算机网络Wireshark实验</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="Created: 2021-12-12 17:48:20" itemprop="dateCreated datePublished" datetime="2021-12-12T17:48:20+08:00">2021-12-12</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">计算机网络实验</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">计算机网络</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#4fb9b5;"><h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><h3 id="实作一-熟悉Ethernet帧结构"><a href="#实作一-熟悉Ethernet帧结构" class="headerlink" title="实作一 熟悉Ethernet帧结构"></a>实作一 熟悉Ethernet帧结构</h3><p>1． 打开WireShark，点击捕获，点击选项</p>
+<p>2． 然后打开cmd，ping qige.io</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D6.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>3.在过滤器上输入关键词，ip.addr == ping的ip</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D7.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>4.</p>
+<p>前六位为目的MAC</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D8.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>目的MAC后六位为源MAC</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17D9.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>源MAC后两位为类型</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps17DA.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+ 
+
+<p>问题：你会发现WireShark给我们的帧中没有校验字段，请了解一下原因</p>
+<p>​    因为有时候校验会由网卡计算，这时WireShark抓到的本机发送的数据包的校验和都是错误的，所以默认关闭了WireShark自己的校验。</p>
+<h3 id="实作二-了解子网内-外通信时的MAC地址"><a href="#实作二-了解子网内-外通信时的MAC地址" class="headerlink" title="实作二 了解子网内/外通信时的MAC地址"></a>实作二 了解子网内/外通信时的MAC地址</h3><p>1.</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6952.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>目的MAC为前六位，目的MAC是网关的如图</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6953.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>源MAC为目的MAC后六位，如图：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6963.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>2.ping qige.io</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6964.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>目的MAC，是网关的：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6965.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>源MAC：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6966.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+ 
+
+<p>3.ping <a target="_blank" rel="noopener" href="http://www.cqjtu.edu.cn/">www.cqjtu.edu.cn</a></p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6967.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>目的MAC地址，是网关的：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6968.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+<p>源MAC地址：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6969.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+ 
+
+ 
+
+<p>问题：</p>
+<pre><code> 答：ARP代理，访问同一子网下的计算机不用通过路由器，而访问非子网下的计算机需要通过路由器转接，MAC地址是接入路由器端口的地址，再通过路由器发给相应计算机。
+</code></pre>
+<h3 id="实作三-掌握ARP解析过程"><a href="#实作三-掌握ARP解析过程" class="headerlink" title="实作三 掌握ARP解析过程"></a>实作三 掌握ARP解析过程</h3><ol>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4227.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4228.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+</ol>
+<p>目的MAC：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4238.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+
+
+<p>源MAC：</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps4239.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+
+
+<ol start="3">
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423A.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+<li><p>Ping qige.io</p>
+</li>
+</ol>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423B.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"> 
+
+
+
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423C.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy">
+
+ 
+
+
+
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps423D.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy">
+
+<p>网关在回应</p>
+<p>问题：</p>
+<p>答：</p>
+<p>​    代理ARP原理：对于没有配置缺省网关的计算机要和其他网络中的计算机实现通信，网关收到源计算机的ARP请求会使用自己的MAC地址与目标计算机的IP地址对源计算机进行应答，访问非子网IP时是通过路由器访问的，路由器再把发出去，目标IP收到请求后，再通过路由器端口IP返回去，那么ARP解析将会得到网关的MAC。</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><h3 id="实作一-熟悉-IP-包结构"><a href="#实作一-熟悉-IP-包结构" class="headerlink" title="实作一 熟悉 IP 包结构"></a>实作一 熟悉 IP 包结构</h3><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsBD60.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy">
+
+<p>问题：为提高效率，我们应该让 IP 的头部尽可能的精简。但在如此珍贵的 IP 头部你会发现既有头部长度字段，也有总长度字段</p>
+<p>答：</p>
+<p>​    便于传输时的识别IP总长度，节省时间，当长度超过1500B时就会被返回链路层进行分段。</p>
+<h3 id="实作二-IP-包的分段与重组"><a href="#实作二-IP-包的分段与重组" class="headerlink" title="实作二 IP 包的分段与重组"></a>实作二 IP 包的分段与重组</h3><ol>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps910D.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps910E.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy">
+
+
+
+<p>问题：分段与重组是一个耗费资源的操作，特别是当分段由传送路径上的节点即路由器来完成的时候，所以 IPv6 已经不允许分段了。那么 IPv6 中，如果路由器遇到了一个大数据包该怎么办？</p>
+<p>答：转发至能支持该数据报的出链路上</p>
+</li>
+</ol>
+<h3 id="实作三-考察-TTL-事件"><a href="#实作三-考察-TTL-事件" class="headerlink" title="实作三 考察 TTL 事件"></a>实作三 考察 TTL 事件</h3><ol>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD2.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+<li><p>第一跳抓包，经过网关路由，TTL=1</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD3.tmp.jpg" alt="img" style="zoom:200%;" loading="lazy"></li>
+<li><p>第二跳抓包，经过172.19.2.2路由，TTL=2</p>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD4.tmp.jpg" alt="img" style="zoom:200%;" loading="lazy"></li>
+<li><p>第十三跳抓包，到达目标子网，TTL=13</p>
+</li>
+</ol>
+<img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps2CD5.tmp.jpg" alt="img" style="zoom:200%;" loading="lazy"> 
+
+ 
+
+<p>问题：在 IPv4 中，TTL 虽然定义为生命期即 Time To Live，但现实中我们都以跳数/节点数进行设置。如果你收到一个包，其 TTL 的值为 50，那么可以推断这个包从源点到你之间有多少跳？</p>
+<p>答：50跳。TTL值为50，所以为50跳。</p>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><h3 id="实作一-熟悉-TCP-和-UDP-段结构"><a href="#实作一-熟悉-TCP-和-UDP-段结构" class="headerlink" title="实作一 熟悉 TCP 和 UDP 段结构"></a>实作一 熟悉 TCP 和 UDP 段结构</h3><ol>
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE950.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE951.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+</ol>
+<p>SYN(synchronous建立联机)</p>
+<p>ACK(acknowledgement 确认)</p>
+<p>PSH(push传送)</p>
+<p>FIN(finish结束)</p>
+<p>RST(reset重置)</p>
+<p>URG(urgent紧急)</p>
+<p>Sequence number(顺序号码)</p>
+<p>Acknowledge number(确认号码)</p>
+<ol start="2">
+<li><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsE961.tmp.jpg" alt="img" style="zoom:150%;" loading="lazy"></li>
+</ol>
+<p>问题：由上大家可以看到 UDP 的头部比 TCP 简单得多，但两者都有源和目的端口号。请问源和目的端口号用来干什么？</p>
+<p>答：因为一个设备有许多的应用，每个应用都通过端口号来标识，所以源端口与目的端口是进行通信的应用服务双方建立数据连接的重要标志，只有通过端口号，两个设备上需要通信的应用服务才能建立连接。</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><h3 id="实作一-了解-DNS-解析"><a href="#实作一-了解-DNS-解析" class="headerlink" title="实作一 了解 DNS 解析"></a>实作一 了解 DNS 解析</h3><p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB8E.tmp.jpg" alt="img" loading="lazy"><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB8F.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>第一次请求：</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFB9F.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>第一次回复：</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA0.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>第二次请求：</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA1.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>第二次回复：</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wpsFBA2.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>从抓包的数据中可以看到本机向DNS服务器的53号端口发送了DNS请求，服务器通过53号端口回复，且第一次服务器并没有回复域名解析结果，第二次回复了解析结果，且同一个域名解析出了多个目的IP地址。</p>
+<p>而且，对同一域名的解析，发送了多次请求，这是因为每次域名解析请求都会根据对应的负载均衡算法计算出一个不同的IP地址并返回，这样记录中配置多个服务器就可以构成一个集群，并可以实现负载均衡。</p>
+<h3 id="实作二-了解-HTTP-的请求和应答"><a href="#实作二-了解-HTTP-的请求和应答" class="headerlink" title="实作二 了解 HTTP 的请求和应答"></a>实作二 了解 HTTP 的请求和应答</h3><ol>
+<li>请求</li>
+</ol>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6385.tmp.jpg" alt="img" loading="lazy"> </p>
+<p>回复：</p>
+<p><img src="/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/wps6386.tmp.jpg" alt="img" loading="lazy"> </p>
+<ol start="2">
+<li><p>请求命令是GET。</p>
+</li>
+<li><p>回应代码是200。</p>
+</li>
+</ol>
+<p>请求方法</p>
+<p>GET：获取资源，可理解为读取或下载数据</p>
+<p>HEAD：获取资源的元信息</p>
+<p>POST：向资源提交数据，相当于写入或上传数据</p>
+<p>PUT：类似 POST</p>
+<p>DELETE：删除资源</p>
+<p>CONNECT：建立特殊的连接隧道</p>
+<p>OPTIONS：列出可对资源实行的方法</p>
+<p>TRACE：追踪请求-响应的传输路径</p>
+<p>常用方法说明</p>
+<p>GET方法虽然基本动作比较简单，但搭配URI和其他头字段就能实现对资源更精细操作，例如，在URI后使用“#”，可以在获取页面后直接定位到某个标签所在的位置；使用If-Modified-Since字段就变成了“有条件的请求”，仅当资源被修改时才会执行获取动作；使用Range字段就是“范围请求”，只获取资源的一部分数据</p>
+<p>POST请求，把你的数据放进报文的body里，然后拼好POST请求头，通过TCP协议发给服务器。</p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>Post author: </strong>黄嘻嘻</li><li class="post-copyright-link"><strong>Post link: </strong><a href="http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/" title="计算机网络Wireshark实验">http://huangxixiyiqi.github.io/2021/12/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CWireshark%E5%AE%9E%E9%AA%8C/</a></li><li class="post-copyright-license"><strong>Copyright Notice: </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> unless otherwise stated.</li></ul></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/12/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E6%80%A7%E5%AE%9E%E9%AA%8C/" rel="next" title="计算机网络验证性实验"><span class="post-nav-text">计算机网络验证性实验</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2021 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 黄嘻嘻</span></div><div class="powered"><span>Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> v5.4.0</span><span class="footer-separator">|</span><span>Theme - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.7.0</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-12-01T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#4fb9b5" stroke-width="2" stroke-linecap="round"></circle></svg></a></div></body></html>
