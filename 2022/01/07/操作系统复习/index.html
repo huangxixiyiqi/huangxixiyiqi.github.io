@@ -1,0 +1,709 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#4fb9b5"><meta name="author" content="黄嘻嘻"><meta name="copyright" content="黄嘻嘻"><meta name="generator" content="Hexo 5.4.0"><meta name="theme" content="hexo-theme-yun"><title>操作系统复习 | 黄嘻嘻</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.25/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#4fb9b5"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"huangxixiyiqi.github.io","root":"/","title":"黄嘻嘻","version":"1.7.0","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["102, 167, 221","62, 131, 225","33, 78, 194"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><meta name="description" content="第一章 操作系统引论   什么是操作系统？    是一组控制和管理计算机硬件和软件资源，合理地组织计算工作流程，以及方便用户使用的程序集合    操作系统的分类     无操作系统的计算机系统 人工操作方式 脱机输入输出方式   批处理系统 单道批处理系统 多道批处理系统   分时系统 实时系统 微机操作系统 多处理机操作系统 网络操作系统 分布式操作系统 嵌入式操作系统 智能卡操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统复习">
+<meta property="og:url" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="黄嘻嘻">
+<meta property="og:description" content="第一章 操作系统引论   什么是操作系统？    是一组控制和管理计算机硬件和软件资源，合理地组织计算工作流程，以及方便用户使用的程序集合    操作系统的分类     无操作系统的计算机系统 人工操作方式 脱机输入输出方式   批处理系统 单道批处理系统 多道批处理系统   分时系统 实时系统 微机操作系统 多处理机操作系统 网络操作系统 分布式操作系统 嵌入式操作系统 智能卡操作系统">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107120709677.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107121050978.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107121216272.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107124727888.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107124734115.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107125932636.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132135594.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132310442.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132724007.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107133236866.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135911800.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135923146.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135931928.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107140415374.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107140729891.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107150628120.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107150933265.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107151035515.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107151732053.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152012587.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152244195.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152320855.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107153952374.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107154713719.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155529288.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155542129.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155623827.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160039970.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160226584.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160258144.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160411606.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160748524.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160754450.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160916537.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107180842529.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181230953.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181243947.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181247911.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181253329.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184144862.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184223621.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184323464.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184350976.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184744235.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185012215.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185115611.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185202051.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185244499.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185605622.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185746518.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185854932.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185950495.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190116773.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190159566.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190224280.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190313111.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190355900.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190418551.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190451363.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190530362.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190535679.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191357657.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191456956.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191714720.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191958647.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192206678.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192605466.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192048304.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192810064.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192934172.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193201393.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193634501.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193716448.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193732377.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107194338533.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200111216.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200212680.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200241148.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200710241.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200757048.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107201405474.png">
+<meta property="og:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107201426975.png">
+<meta property="article:published_time" content="2022-01-07T03:05:15.000Z">
+<meta property="article:modified_time" content="2022-01-07T12:14:27.283Z">
+<meta property="article:author" content="黄嘻嘻">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107120709677.png"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="黄嘻嘻"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="黄嘻嘻"><span class="site-author-status" title="Looking for dawn.">🌑</span></a><div class="site-author-name"><a href="/about/">黄嘻嘻</a></div><span class="site-name">黄嘻嘻</span><sub class="site-subtitle"></sub><div class="site-desciption">相信奇迹的人，比奇迹更伟大</div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">3</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">2</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn" title="文档"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/huangxixiyiqi" title="GitHub" target="_blank" style="color:#181717"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://music.163.com/#/user/home?id=263055994102977" title="网易云音乐" target="_blank" style="color:#C10D0C"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-netease-cloud-music-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://space.bilibili.com/237302208" title="哔哩哔哩动画" target="_blank" style="color:#FF8EB3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-bilibili-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA"><span class="toc-text">第一章 操作系统引论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A"><span class="toc-text">作业</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E8%BF%9B%E7%A8%8B%E7%9A%84%E6%8F%8F%E8%BF%B0%E4%B8%8E%E6%8E%A7%E5%88%B6"><span class="toc-text">第二章 进程的描述与控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%B6%8B%E5%9B%BE"><span class="toc-text">前趋图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C"><span class="toc-text">程序并发执行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%88Bernstein%EF%BC%89"><span class="toc-text">程序并发执行的条件（Bernstein）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">进程的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97PCB"><span class="toc-text">进程控制块PCB</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-text">进程的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">进程与程序的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="toc-text">进程状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="toc-text">进程同步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E6%9C%BA%E5%88%B6"><span class="toc-text">信号量机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B%E4%BA%92%E6%96%A5"><span class="toc-text">实现进程互斥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%89%8D%E8%B6%8B%E5%85%B3%E7%B3%BB"><span class="toc-text">实现进程的前趋关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98"><span class="toc-text">生产者消费者问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-text">进程通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A-1"><span class="toc-text">作业</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E8%AE%B0%E5%BD%95%E5%9E%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E6%8F%8F%E8%BF%B0%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"><span class="toc-text">用记录型信号量描述哲学家就餐问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E8%B0%83%E5%BA%A6%E4%B8%8E%E6%AD%BB%E9%94%81"><span class="toc-text">第三章 调度与死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-text">调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%88%E6%9D%A5%E5%85%88%E6%9C%8D%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95-FCFS"><span class="toc-text">先来先服务调度算法 FCFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9F%AD%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%EF%BC%88SJF%EF%BC%89-%E7%9F%AD%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%85%88%E8%B0%83%E5%BA%A6%EF%BC%88SPF%EF%BC%89"><span class="toc-text">短作业优先的调度算法（SJF）&#x2F;短进程优先调度（SPF）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%BD%AC%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95RR"><span class="toc-text">时间片轮转调度算法RR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E6%9D%83%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-text">优先权调度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%9E%E6%8A%A2%E5%8D%A0%E5%BC%8F%E4%BC%98%E5%85%88%E6%9D%83%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-text">非抢占式优先权调度算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%A2%E5%8D%A0%E5%BC%8F%E4%BC%98%E5%85%88%E6%9D%83%E7%AE%97%E6%B3%95"><span class="toc-text">抢占式优先权算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">产生死锁的原因</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="toc-text">产生死锁的必要条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">解决死锁的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E9%81%BF%E5%85%8D"><span class="toc-text">死锁的避免</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="toc-text">银行家算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE"><span class="toc-text">资源分配图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A-2"><span class="toc-text">作业</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E5%AD%98%E5%82%A8%E5%99%A8%E7%AE%A1%E7%90%86"><span class="toc-text">第四章 存储器管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A3%85%E5%85%A5%E5%92%8C%E9%93%BE%E6%8E%A5"><span class="toc-text">程序的装入和链接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%A3%85%E5%85%A5"><span class="toc-text">程序的装入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%9D%E5%AF%B9%E8%A3%85%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-text">绝对装入方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A3%85%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-text">可重定位装入方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%BF%90%E8%A1%8C%E8%A3%85%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="toc-text">动态运行装入方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="toc-text">程序的链接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="toc-text">连续分配存储管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%B8%80%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">单一连续分配方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">固定分区分配方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">动态分区分配方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A6%96%E6%AC%A1%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95%EF%BC%88first-fit-FF"><span class="toc-text">首次适应算法（first fit, FF)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E9%A6%96%E6%AC%A1%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95%EF%BC%88next-fit-NF"><span class="toc-text">循环首次适应算法（next fit ,NF)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95%EF%BC%88best-fit%EF%BC%8CBF%EF%BC%89"><span class="toc-text">最佳适应算法（best fit，BF）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%80%E5%9D%8F%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95%EF%BC%88worst-fit-WF"><span class="toc-text">最坏适应算法（worst fit, WF)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%86%E7%9B%96"><span class="toc-text">覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2-%E5%AF%B9%E6%8D%A2"><span class="toc-text">交换&#x2F;对换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">分页存储管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BB%93%E6%9E%84%E4%BE%8B%E9%A2%98-%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-text">地址结构例题 ！！！</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%E4%BE%8B%E9%A2%98%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-text">地址变换例题！！！</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%E6%9C%BA%E6%9E%84"><span class="toc-text">地址变换机构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">分段存储管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%EF%BC%88%E9%80%BB%E8%BE%91%E5%9C%B0%E5%9D%80-gt-%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%EF%BC%89"><span class="toc-text">地址变换（逻辑地址-&gt;物理地址）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98-1"><span class="toc-text">例题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A-3"><span class="toc-text">作业</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="黄嘻嘻"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="黄嘻嘻"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">操作系统复习</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="Created: 2022-01-07 11:05:15" itemprop="dateCreated datePublished" datetime="2022-01-07T11:05:15+08:00">2022-01-07</time></div><div class="post-classify"></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#4fb9b5;"><h2 id="第一章-操作系统引论"><a href="#第一章-操作系统引论" class="headerlink" title="第一章 操作系统引论"></a>第一章 操作系统引论</h2><table>
+<thead>
+<tr>
+<th>什么是操作系统？</th>
+</tr>
+</thead>
+</table>
+<p>是一组控制和管理计算机硬件和软件资源，合理地组织计算工作流程，以及方便用户使用的程序集合</p>
+<table>
+<thead>
+<tr>
+<th>操作系统的分类</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>无操作系统的计算机系统<ul>
+<li>人工操作方式</li>
+<li>脱机输入输出方式</li>
+</ul>
+</li>
+<li>批处理系统<ul>
+<li>单道批处理系统</li>
+<li>多道批处理系统</li>
+</ul>
+</li>
+<li>分时系统</li>
+<li>实时系统</li>
+<li>微机操作系统</li>
+<li>多处理机操作系统</li>
+<li>网络操作系统</li>
+<li>分布式操作系统</li>
+<li>嵌入式操作系统</li>
+<li>智能卡操作系统</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>操作系统的特征</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><p>基本特征</p>
+<ol>
+<li>并发</li>
+<li>共享</li>
+</ol>
+</li>
+<li><p>四大特征同时在</p>
+<ol>
+<li><p>并发<br>指在计算机系统中同时存在着多道运行的程序（进程）</p>
+<p>宏观上：多道程序 <strong>同时在执行</strong></p>
+<p>微观上：任何时刻 <strong>只有一道程序在执行</strong>，即微观上多道程序在CPU上 <strong>轮流（交替）执行</strong>（单机）</p>
+</li>
+<li><p>共享<br>指系统中的资源不再为某道程序所独占，而是供多道程序共同使用</p>
+</li>
+<li><p>虚拟<br>把一个 <strong>物理实体</strong> 映射为若干个对应的 <strong>逻辑实体</strong> </p>
+</li>
+<li><p>异步<br>指进程在执行中，其执行时间、顺序、向前推进的速度和完成的时间等都是不可预知的</p>
+</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>操作系统的主要功能</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li>处理机管理</li>
+<li>存储器管理</li>
+<li>设备管理</li>
+<li>文件管理</li>
+<li>用户接口</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>OS发展的动力</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li><p>不断提高计算机资源利用率</p>
+</li>
+<li><p>方便用户</p>
+</li>
+<li><p>器件的不断更新换代</p>
+</li>
+<li><p>计算机体系结构的不断发展</p>
+</li>
+<li><p>不断提出新的应用需求</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>微内核OS</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>主要思想：</p>
+<p>在OS内核中只留下一些最基本的功能，而将其他服务分离出去，由工作在用户态下的进程来实现，形成所谓“客户/服务器”模式。客户进程可通过内核向服务器进程发送请求，以获取OS的服务。</p>
+</li>
+<li><p>微内核</p>
+<p>精心设计的，能实现现代OS核心功能的小型内核，它小而精炼，运行在核心态下，开机后常驻内存，不会因内存紧张而换出，它为构建通用OS提供了一个重要基础。</p>
+</li>
+<li><p>基本功能</p>
+<ul>
+<li>进程管理</li>
+<li>存储器管理</li>
+<li>进程通信管理</li>
+<li>I/O设备管理</li>
+</ul>
+</li>
+<li><p>特点</p>
+<ul>
+<li>小而精炼</li>
+<li>系统的灵活性和可扩充性好</li>
+<li>系统的可靠性高</li>
+<li>适用于分布式系统</li>
+</ul>
+</li>
+</ul>
+<h3 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h3><table>
+<thead>
+<tr>
+<th>设计现代OS的主要目标是什么？</th>
+</tr>
+</thead>
+</table>
+<p>方便性、有效性、可扩充性、开放性</p>
+<table>
+<thead>
+<tr>
+<th>实现分时系统的关键问题是什么？应如何解决？</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>关键问题：</p>
+<p>如何使用户能与自己的作业进行调度</p>
+</li>
+<li><p>解决：</p>
+<p><em>课本P9-P10</em></p>
+<p>及时接收，及时处理。系统首先必须能提供多个终端，同时给多个用户使用；其次，当用户在自己的终端上键入命令时，系统应能及时接收，并及时处理该命令，再将结果返回给用户。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>OS有哪几大特征？其最基本的特征是什么？</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>四大特征<ul>
+<li>并发</li>
+<li>共享</li>
+<li>虚拟</li>
+<li>异步</li>
+</ul>
+</li>
+<li>最基本的特征<ul>
+<li>并发</li>
+<li>共享</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>什么是时分复用技术？举例说明它能提高资源利用率的根本原因是什么？</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>时分复用技术将一个物理实体变为若干个逻辑上的对应物</p>
+</li>
+<li><p>根本原因：</p>
+<p>它利用某设备为一用户服务的空闲时间，又转去为其他用户服务，使设备得到最充分的利用。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>什么是微内核OS？</th>
+</tr>
+</thead>
+</table>
+<p>在OS内核中只留下一些最基本的功能，而将其他服务分离出去，由工作在用户态下的进程来实现，形成所谓“客户/服务器”模式。客户进程可通过内核向服务器进程发送请求，以获取OS的服务。</p>
+<h2 id="第二章-进程的描述与控制"><a href="#第二章-进程的描述与控制" class="headerlink" title="第二章 进程的描述与控制"></a>第二章 进程的描述与控制</h2><h3 id="前趋图"><a href="#前趋图" class="headerlink" title="前趋图"></a>前趋图</h3><p>​    是指一个有向无循环图，它用于描述进程之间执行的先后顺序。图中的每个节点可用来表示一个进程或程序段，乃至一条语句，结点间的有向边则表示两个结点之间存在的偏序或前趋关系</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107120709677.png" alt="image-20220107120709677" loading="lazy"></p>
+<ul>
+<li>前趋图中，把没有前趋的结点称为初始结点</li>
+<li>把没有后继的结点称为终止结点</li>
+</ul>
+<h3 id="程序并发执行"><a href="#程序并发执行" class="headerlink" title="程序并发执行"></a>程序并发执行</h3><h4 id="程序并发执行的条件（Bernstein）"><a href="#程序并发执行的条件（Bernstein）" class="headerlink" title="程序并发执行的条件（Bernstein）"></a>程序并发执行的条件（Bernstein）</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107121050978.png" alt="image-20220107121050978" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107121216272.png" alt="image-20220107121216272" loading="lazy"></p>
+<p><strong>两个进程的读集、写集的∩为空，两个写集的∩为空，则可以并发。</strong></p>
+<h3 id="进程的定义"><a href="#进程的定义" class="headerlink" title="进程的定义"></a>进程的定义</h3><h4 id="进程控制块PCB"><a href="#进程控制块PCB" class="headerlink" title="进程控制块PCB"></a>进程控制块PCB</h4><p>​    为了使参与并发执行的每个程序（含数据）都能独立地运行，在操作系统中必须为之配置一个专门的数据结构，称为 <strong>进程控制块（Process Control Block,PCB)</strong> 。</p>
+<p>是操作系统为了管理和控制进程的运行而为每一个进程定义的一个数据结构，它记录了系统管理进程所需的全部信息。系统根据PCB而感知进程的存在，<strong>PCB是进程存在的唯一标志</strong>。</p>
+<p>​    由 <strong>程序段、相关的数据段和PCB三部分</strong>组成了进程。</p>
+<p>​    所谓创建进程，实质上是创建进程实体中的PCB；而撤销进程，实质上是撤销进程的PCB。</p>
+<p>对于进程的定义，从不同的角度可以有不同的定义，其中较为典型的定义有：</p>
+<ol>
+<li>进程是程序的一次执行</li>
+<li>进程是一个程序及其数据在处理机上顺序执行时所发生的活动</li>
+<li>进程是具有独立功能的程序在一个数据集合上运行的过程，它是系统进行资源分配和调度的一个独立单位。</li>
+</ol>
+<h3 id="进程的特征"><a href="#进程的特征" class="headerlink" title="进程的特征"></a>进程的特征</h3><ol>
+<li>结构特征</li>
+<li>动态性</li>
+<li>并发性</li>
+<li>独立性</li>
+<li>异步性</li>
+</ol>
+<h3 id="进程与程序的区别"><a href="#进程与程序的区别" class="headerlink" title="进程与程序的区别"></a>进程与程序的区别</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107124727888.png" alt="image-20220107124727888" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107124734115.png" alt="image-20220107124734115" loading="lazy"></p>
+<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p>进程的5种状态（<strong>三种基本状态</strong>）</p>
+<ul>
+<li>new新建/创建:进程正在创建中的状态</li>
+<li><strong>ready就绪</strong>:  进程已获得了除处理机以外的所有资源，等待分配处理机执行的等待状态。</li>
+<li><strong>running运行/执行</strong>: 当一个进程获得必要的资源并正在处理机上执行的状态。</li>
+<li><strong>waiting等待/阻塞</strong>:  正在执行的进程由于发生某事件（如I/O请求、申请缓冲区失败等）而暂时无法执行下去，此时进程所处的状态。</li>
+<li>terminated终止/撤消/退出：进程执行完毕，释放所占资源的状态。</li>
+</ul>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107125932636.png" alt="image-20220107125932636" loading="lazy"></p>
+<h3 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h3><p><strong>一次只允许一个进程使用的资源称为临界资源</strong></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132135594.png" alt="image-20220107132135594" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132310442.png" alt="image-20220107132310442" loading="lazy"></p>
+<h4 id="信号量机制"><a href="#信号量机制" class="headerlink" title="信号量机制"></a>信号量机制</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107132724007.png" alt="image-20220107132724007" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107133236866.png" alt="image-20220107133236866" loading="lazy"></p>
+<h4 id="实现进程互斥"><a href="#实现进程互斥" class="headerlink" title="实现进程互斥"></a>实现进程互斥</h4><ul>
+<li>利用信号量实现进程互斥</li>
+</ul>
+<p>只需为该资源设置一 <strong>互斥信号量 mutex</strong> ，并设其初值为1，然后将各进程访问该资源的临界区CS置于 <code>wait(mutex)</code> 和 <code>signal(mutex)</code> 操作之间即可</p>
+<ol>
+<li>设mutext为互斥信号量，其初值为1，取值范围为（-1,0,1），当mutex=1时，表示两个进程皆未进入需要互斥的临界区；当mutex=0时，表示有一个进程进入临界区运行，另一个必须等待，挂入阻塞队列；当mutex=-1时，表示有一个进程正在临界区运行，另一个进程因等待而阻塞在信号量队列中，需要被当前已在临界区运行的进程退出时唤醒。</li>
+<li></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex =1;</span><br><span class="line">PA()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		wait(mutex);</span><br><span class="line">		临界区;</span><br><span class="line">		signal(mutex);</span><br><span class="line">		剩余区；</span><br><span class="line">	&#125;</span><br><span class="line">&#125;；</span><br><span class="line">PB()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		wait(mutex);</span><br><span class="line">		临界区;</span><br><span class="line">		signal(mutex);</span><br><span class="line">		剩余区；</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="实现进程的前趋关系"><a href="#实现进程的前趋关系" class="headerlink" title="实现进程的前趋关系"></a>实现进程的前趋关系</h4><p>设有两个并发执行的进程P1和P2。P1中有语句S1；P2 中有语句S2.我们希望S1执行后再执行S2.为实现这种前趋关系，只需要设置一个公用信号量S，赋其初值0，在S1语句后添加 <code>signal(S)</code> ，在S2语句前添加 <code>wait(S)</code> ，即可实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">semaphore S =0;</span><br><span class="line">P1()&#123;</span><br><span class="line">	S1;</span><br><span class="line">	signal(S);</span><br><span class="line">&#125;</span><br><span class="line">P2()&#123;</span><br><span class="line">	wait(S);</span><br><span class="line">	S2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>若是多进程实现前趋关系，只要<strong>每个前趋关系</strong>设置一个信号量即可。</p>
+<h3 id="生产者消费者问题"><a href="#生产者消费者问题" class="headerlink" title="生产者消费者问题"></a>生产者消费者问题</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135911800.png" alt="image-20220107135911800" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135923146.png" alt="image-20220107135923146" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107135931928.png" alt="image-20220107135931928" loading="lazy"></p>
+<h3 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107140415374.png" alt="image-20220107140415374" loading="lazy"></p>
+<h3 id="作业-1"><a href="#作业-1" class="headerlink" title="作业"></a>作业</h3><table>
+<thead>
+<tr>
+<th>试画出下面四条语句的前趋图：<br>S1: a = x+y;<br>S2: b = z+1;<br>S3: c = a-b;<br>S4: w = c+1;</th>
+</tr>
+</thead>
+</table>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107140729891.png" alt="image-20220107140729891" loading="lazy"></p>
+<table>
+<thead>
+<tr>
+<th>试说明PCB的作用具体表现在哪几个方面？为什么说PCB是进程存在的唯一标志？</th>
+</tr>
+</thead>
+</table>
+<p>作用：</p>
+<ol>
+<li>作为独立运行基本单位的标志</li>
+<li>能实行间断性运行方式</li>
+<li>提供进程管理所需要的信息</li>
+<li>提供进程调度所需要的信息</li>
+<li>实现与其他进程的同步与通信</li>
+</ol>
+<p><strong>因为系统是通过PCB感知进程的存在的。当系统创建一个新进程时，就为它建立了一个PCB。进程结束时又回收其PCB，进程于是也随之消亡。</strong></p>
+<table>
+<thead>
+<tr>
+<th>试说明进程在三个基本状态之间转换的典型原因</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>处于就绪状态的进程，在调度程序为之分配处理机后便可执行，即由就绪状态变为执行状态；</li>
+<li>处于执行状态的进程，当分配给其的时间片耗尽而暂停执行，即由执行状态变为就绪状态；</li>
+<li>处于执行状态的进程，如因某件事情导致进程受阻，则由执行状态变为阻塞状态；</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>试说明线程具有哪些属性？</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li>线程作为调度和分派的基本单位，因而线程是能独立运行的基本单位；</li>
+<li>在引入线程的OS中，进程可以并发执行，使得OS具有更好的并发性，从而能更加有效地提高系统资源的利用率和系统的吞吐量。</li>
+<li>线程本身并不拥有系统资源，而是仅有一点必不可少的、能保证独立运行的资源。</li>
+<li>独立性低。在同一进程中的不同线程之间的独立性要比不同进程之间的独立性低得多。</li>
+<li>在一些OS中，线程的切换、同步和通信无需操作系统内核的干预。</li>
+</ol>
+<h4 id="用记录型信号量描述哲学家就餐问题"><a href="#用记录型信号量描述哲学家就餐问题" class="headerlink" title="用记录型信号量描述哲学家就餐问题"></a>用记录型信号量描述哲学家就餐问题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">semaphore chopstick[5]=[1,1,1,1,1];</span><br><span class="line">semaphore left = 4; //防止死锁问题，只允许前4个哲学家拿起左边的筷子</span><br><span class="line">while(true)&#123;</span><br><span class="line">	wait(left);</span><br><span class="line">	wait(chopstick[i]); //拿左边的筷子</span><br><span class="line">	wait(chopstick[(i+1)%5]); //拿右边的筷子</span><br><span class="line">	eat;</span><br><span class="line">	signal(chopstick[(i+1)%5]);</span><br><span class="line">	signal(chopstick[i]);</span><br><span class="line">	signal(left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="第三章-调度与死锁"><a href="#第三章-调度与死锁" class="headerlink" title="第三章 调度与死锁"></a>第三章 调度与死锁</h2><p><strong>引起进程调度的因素</strong>：</p>
+<ol>
+<li>进程正常/异常终止</li>
+<li>正在执行的进程因某种原因阻塞</li>
+<li>在引入时间片的系统中，时间片用完</li>
+<li>抢占调度方式中，就绪队列中一个进程优先级高于正在运行的进程</li>
+</ol>
+<h3 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h3><p><strong>周转时间 = 进程运行结束时间 - 进入就绪队列时间</strong></p>
+<p><strong>等待时间 = 周转时间 - 服务时间</strong></p>
+<h4 id="先来先服务调度算法-FCFS"><a href="#先来先服务调度算法-FCFS" class="headerlink" title="先来先服务调度算法 FCFS"></a>先来先服务调度算法 FCFS</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107150628120.png" alt="image-20220107150628120" loading="lazy"></p>
+<h4 id="短作业优先的调度算法（SJF）-短进程优先调度（SPF）"><a href="#短作业优先的调度算法（SJF）-短进程优先调度（SPF）" class="headerlink" title="短作业优先的调度算法（SJF）/短进程优先调度（SPF）"></a>短作业优先的调度算法（SJF）/短进程优先调度（SPF）</h4><p>分别抢占式和抢占式两种</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107150933265.png" alt="image-20220107150933265" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107151035515.png" alt="image-20220107151035515" loading="lazy"></p>
+<h4 id="时间片轮转调度算法RR"><a href="#时间片轮转调度算法RR" class="headerlink" title="时间片轮转调度算法RR"></a>时间片轮转调度算法RR</h4><p>​    系统将所有原就绪进程按FCFS的原则，排成一个队列，依次调度，把CPU分配给队首进程，并令其执行一个时间片/CPU时间，通常为10-100ms。时间片用完后，该进程将 <strong>被抢占</strong> 并插入就绪队列末尾。</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107151732053.png" alt="image-20220107151732053" loading="lazy"></p>
+<h4 id="优先权调度算法"><a href="#优先权调度算法" class="headerlink" title="优先权调度算法"></a>优先权调度算法</h4><h5 id="非抢占式优先权调度算法"><a href="#非抢占式优先权调度算法" class="headerlink" title="非抢占式优先权调度算法"></a>非抢占式优先权调度算法</h5><p>​    系统一旦把处理机分配给就绪队列中 <strong>优先权最高</strong> 的进程后，该进程便一直执行下去，直到完成/因发生某事件而放弃处理机时，系统方可重新分配处理机。</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152012587.png" alt="image-20220107152012587" loading="lazy"></p>
+<h5 id="抢占式优先权算法"><a href="#抢占式优先权算法" class="headerlink" title="抢占式优先权算法"></a>抢占式优先权算法</h5><p>系统把处理机分配给就绪队列中优先级最高的进程，使之执行。但在其执行期间，只要出现了另一个优先级更高的进程，进程调度程序就立即停止当前进程的执行，重新将处理机分配给新到的优先级最高的进程。</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152244195.png" alt="image-20220107152244195" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107152320855.png" alt="image-20220107152320855" loading="lazy"></p>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>​    <strong>指多个进程在运行过程中因为争夺资源而造成的一种僵局，若无外力作用，这些进程都将无法向前推进</strong></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107153952374.png" alt="image-20220107153952374" loading="lazy"></p>
+<h5 id="产生死锁的原因"><a href="#产生死锁的原因" class="headerlink" title="产生死锁的原因"></a>产生死锁的原因</h5><ul>
+<li>竞争非剥夺性资源</li>
+<li>竞争临时性资源</li>
+</ul>
+<h5 id="产生死锁的必要条件"><a href="#产生死锁的必要条件" class="headerlink" title="产生死锁的必要条件"></a>产生死锁的必要条件</h5><ul>
+<li><p>互斥条件（资源独占条件）</p>
+<p>进程对所分配到的资源进行排他性使用，即在一段时间内，某资源只能被一个进程占用。如果此时还有其他进程请求该资源，则请求进程只能等待，直至占有该资源的进程用毕释放</p>
+</li>
+<li><p>请求和保持条件（部分分配条件）</p>
+<p>进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</p>
+</li>
+<li><p>不可抢占条件</p>
+<p>进程已获得的资源在未使用完之前不能被抢占，只能在进程使用完时由自己释放</p>
+</li>
+<li><p>循环等待条件</p>
+<p>在发生死锁时，必然存在一个进程—资源的循环链，即进程集合{P0，P1，P2，…，Pn}中的P0正在等待一个P1占用的资源，P1 正在等待P2占用的资源，….，Pn正在等待已被P0占用的资源。</p>
+</li>
+</ul>
+<h5 id="解决死锁的方法"><a href="#解决死锁的方法" class="headerlink" title="解决死锁的方法"></a>解决死锁的方法</h5><p>目前处理死锁的基本方式有四种：</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107154713719.png" alt="image-20220107154713719" loading="lazy"></p>
+<h5 id="死锁的避免"><a href="#死锁的避免" class="headerlink" title="死锁的避免"></a>死锁的避免</h5><p><strong>在死锁避免方法中，把系统的状态分为安全状态和不安全状态</strong></p>
+<p>当系统处于安全状态时，可避免死锁发送。反之，当系统处于不安全状态时，则可能进入到死锁状态。<br><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155529288.png" alt="image-20220107155529288" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155542129.png" alt="image-20220107155542129" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107155623827.png" alt="image-20220107155623827" loading="lazy"></p>
+<h5 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160039970.png" alt="image-20220107160039970" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160226584.png" alt="image-20220107160226584" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160258144.png" alt="image-20220107160258144" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160411606.png" alt="image-20220107160411606" loading="lazy"></p>
+<p>例子看课本P122</p>
+<h5 id="资源分配图"><a href="#资源分配图" class="headerlink" title="资源分配图"></a>资源分配图</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160748524.png" alt="image-20220107160748524" loading="lazy"><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160754450.png" alt="image-20220107160754450" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107160916537.png" alt="image-20220107160916537" loading="lazy"></p>
+<p>课本P124</p>
+<p>S为死锁状态的充分条件是：当且仅当S状态的资源分配图是不可完全简化的。</p>
+<h3 id="作业-2"><a href="#作业-2" class="headerlink" title="作业"></a>作业</h3><table>
+<thead>
+<tr>
+<th>引起进程调度是因素有哪些？</th>
+</tr>
+</thead>
+</table>
+<ol>
+<li>进程正常/异常终止</li>
+<li>正在执行的进程因某种原因阻塞</li>
+<li>在引入时间片的系统中，时间片用完</li>
+<li>抢占调度方式中，就绪队列中一个进程优先级高于正在运行的进程</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>某进程被唤醒后立即投入运行，我们就说这个系统采用的是抢占（剥夺)调度方法，对吗？为什么？</th>
+</tr>
+</thead>
+</table>
+<p>不对。因为该进程被唤醒可能是因为处理机处于空闲状态或者上一进程运行结束释放了处理机、资源，而不一定是该进程优先级高抢占了资源。</p>
+<table>
+<thead>
+<tr>
+<th>高级调度与低级调度的主要任务是什么？为什么要引入中级调度？</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>高级调度的主要任务：</p>
+<p>根据某种算法，决定将外存上处于后备队列中的哪几个作业调入内存，为它们创建进程，分配必要的资源，并将它们放入就绪队列。</p>
+</li>
+<li><p>低级调度主要任务：</p>
+<p>根据某种算法，决定就绪队列中的哪个进程应获得处理机，并由分派程序将处理机分配给被选中的进程。</p>
+</li>
+<li><p>引入中级调度是为了提高内存利用率和系统吞吐量。中级调度实际上就是存储器管理中的对换功能。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>考虑5个进程P1，P2，P3，P4，P5，见表，规定进程的优先数越小，优先级越高，试描述在采用下述调度算法时各个进程运行过程，并计算采用每种算法时进程平均周转时间。假设忽略进程的调度时间。1)先来先服务调度算法；2）时间片轮转调度算法（时间片为1ms）；   3）非剥夺式优先级调度算法；4）剥夺式优先级调度算法。<img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107180842529.png" alt="image-20220107180842529" loading="lazy"></th>
+</tr>
+</thead>
+</table>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181230953.png" alt="image-20220107181230953" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181243947.png" alt="image-20220107181243947" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181247911.png" alt="image-20220107181247911" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107181253329.png" alt="image-20220107181253329" loading="lazy"></p>
+<table>
+<thead>
+<tr>
+<th>3个进程共享4个同种类型的资源，每个进程最大需要2个资源，请问该系统是否因为竞争该资源而死锁？</th>
+</tr>
+</thead>
+</table>
+<p>不会产生死锁，因为不满足请求和保持（部分分配条件），当三个进程同时各拥有一个该资源，三个进程再去申请一个该资源时，此时空闲资源剩余1个，必有一个进程可以执行，其余两个进程阻塞。当执行的进程结束后释放资源，其余两个进程被唤醒，所以不存在死锁。</p>
+<table>
+<thead>
+<tr>
+<th>在银行家算法中，若出现下述资源分配情况，试问：</th>
+</tr>
+</thead>
+</table>
+<table>
+<thead>
+<tr>
+<th align="center">Process</th>
+<th align="center">Allocation</th>
+<th align="center">Need</th>
+<th align="center">Available</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P0</td>
+<td align="center">0032</td>
+<td align="center">0012</td>
+<td align="center">1622</td>
+</tr>
+<tr>
+<td align="center">P1</td>
+<td align="center">1000</td>
+<td align="center">1750</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">P2</td>
+<td align="center">1354</td>
+<td align="center">2356</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">P3</td>
+<td align="center">0332</td>
+<td align="center">0652</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">P4</td>
+<td align="center">0014</td>
+<td align="center">0656</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>(1)该状态是否安全？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(2）若进程P2提出请求Request（1,2,2,2）后，系统能否将资源分配给它？</td>
+</tr>
+</tbody></table>
+<p>（1） 该状态安全。利用安全性算法进行分析（考试写详细点），存在一个安全序列（P0，P3,P4,P1,P2)</p>
+<p>（2）不能，系统将资源分配它后，它获得所请求的资源并不能使它完成进程释放资源，从而会导致其他进程请求资源而无资源可分配，导致死锁，使系统变成不安全状态。</p>
+<h2 id="第四章-存储器管理"><a href="#第四章-存储器管理" class="headerlink" title="第四章 存储器管理"></a>第四章 存储器管理</h2><p>存储管理应具有以下功能：</p>
+<ul>
+<li>实现内存的分配和回收</li>
+<li>地址变换</li>
+<li>“扩充”内存容量</li>
+<li>进行存储保护</li>
+</ul>
+<h3 id="程序的装入和链接"><a href="#程序的装入和链接" class="headerlink" title="程序的装入和链接"></a>程序的装入和链接</h3><p>一个用户源程序要变为在内存中可执行的程序，通常哟啊进行以下处理：</p>
+<ol>
+<li><strong>编译：</strong> 由编译程序对用户源程序进行编译，形成若干个目标模块；</li>
+<li><strong>链接</strong>：由链接程序将编译后形成的一组目标模块以及它们所需要的库函数链接在一起，形成一个完整的装入模块；</li>
+<li><strong>装入</strong>：由装入程序将装入模块装入内存</li>
+</ol>
+<h4 id="程序的装入"><a href="#程序的装入" class="headerlink" title="程序的装入"></a>程序的装入</h4><h5 id="绝对装入方式"><a href="#绝对装入方式" class="headerlink" title="绝对装入方式"></a>绝对装入方式</h5><p>如果在编译时，事先知用户程序在内存的驻留位置，则编译程序在编译时就产生绝对地址的目标代码。装入程序就直接把装入模块中的程序和数据装入到指定的位置，（不需进行地址转换）<br>         该装入方式只适用于<strong>单道程序环境。</strong></p>
+<h5 id="可重定位装入方式"><a href="#可重定位装入方式" class="headerlink" title="可重定位装入方式"></a>可重定位装入方式</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184144862.png" alt="image-20220107184144862" loading="lazy"></p>
+<h5 id="动态运行装入方式"><a href="#动态运行装入方式" class="headerlink" title="动态运行装入方式"></a>动态运行装入方式</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184223621.png" alt="image-20220107184223621" loading="lazy"></p>
+<h4 id="程序的链接"><a href="#程序的链接" class="headerlink" title="程序的链接"></a>程序的链接</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184323464.png" alt="image-20220107184323464" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184350976.png" alt="image-20220107184350976" loading="lazy"></p>
+<h3 id="连续分配存储管理"><a href="#连续分配存储管理" class="headerlink" title="连续分配存储管理"></a>连续分配存储管理</h3><h4 id="单一连续分配方式"><a href="#单一连续分配方式" class="headerlink" title="单一连续分配方式"></a>单一连续分配方式</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107184744235.png" alt="image-20220107184744235" loading="lazy"></p>
+<h4 id="固定分区分配方式"><a href="#固定分区分配方式" class="headerlink" title="固定分区分配方式"></a>固定分区分配方式</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185012215.png" alt="image-20220107185012215" loading="lazy"></p>
+<h5 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185115611.png" alt="image-20220107185115611" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185202051.png" alt="image-20220107185202051" loading="lazy"></p>
+<h4 id="动态分区分配方式"><a href="#动态分区分配方式" class="headerlink" title="动态分区分配方式"></a>动态分区分配方式</h4><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185244499.png" alt="image-20220107185244499" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185605622.png" alt="image-20220107185605622" loading="lazy"></p>
+<h5 id="首次适应算法（first-fit-FF"><a href="#首次适应算法（first-fit-FF" class="headerlink" title="首次适应算法（first fit, FF)"></a>首次适应算法（first fit, FF)</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185746518.png" alt="image-20220107185746518" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185854932.png" alt="image-20220107185854932" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107185950495.png" alt="image-20220107185950495" loading="lazy"></p>
+<h5 id="循环首次适应算法（next-fit-NF"><a href="#循环首次适应算法（next-fit-NF" class="headerlink" title="循环首次适应算法（next fit ,NF)"></a>循环首次适应算法（next fit ,NF)</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190116773.png" alt="image-20220107190116773" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190159566.png" alt="image-20220107190159566" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190224280.png" alt="image-20220107190224280" loading="lazy"></p>
+<h5 id="最佳适应算法（best-fit，BF）"><a href="#最佳适应算法（best-fit，BF）" class="headerlink" title="最佳适应算法（best fit，BF）"></a>最佳适应算法（best fit，BF）</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190313111.png" alt="image-20220107190313111" loading="lazy"></p>
+<p>先将空闲分区/链 按容量大小递增排序</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190355900.png" alt="image-20220107190355900" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190418551.png" alt="image-20220107190418551" loading="lazy"></p>
+<h5 id="最坏适应算法（worst-fit-WF"><a href="#最坏适应算法（worst-fit-WF" class="headerlink" title="最坏适应算法（worst fit, WF)"></a>最坏适应算法（worst fit, WF)</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190451363.png" alt="image-20220107190451363" loading="lazy"></p>
+<p>与最佳适应算法相反，按大小递减排序，大容量在前面</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190530362.png" alt="image-20220107190530362" loading="lazy"><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107190535679.png" alt="image-20220107190535679" loading="lazy"></p>
+<h3 id="覆盖"><a href="#覆盖" class="headerlink" title="覆盖"></a>覆盖</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191357657.png" alt="image-20220107191357657" loading="lazy"></p>
+<h3 id="交换-对换"><a href="#交换-对换" class="headerlink" title="交换/对换"></a>交换/对换</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191456956.png" alt="image-20220107191456956" loading="lazy"></p>
+<p><strong>对换是改善内存利用率的有效措施，它可以直接提高处理机的利用率和系统的吞吐量</strong></p>
+<h3 id="分页存储管理方式"><a href="#分页存储管理方式" class="headerlink" title="分页存储管理方式"></a>分页存储管理方式</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191714720.png" alt="image-20220107191714720" loading="lazy"></p>
+<p>P148</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107191958647.png" alt="image-20220107191958647" loading="lazy"></p>
+<p>分页地址结构如下：</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192206678.png" alt="image-20220107192206678" loading="lazy"></p>
+<p>它包含两部分内容：前一部分为页号P，后一部分为位（偏）移量W，即页内地址。图中的地址长度为32位，其中0<del>11位为页内地址，即每页大小为4KB （ <img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192605466.png" alt="image-20220107192605466" loading="lazy">);12</del>31位为页号，地址空间最多允许有1M页。（1M=1024K)</p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192048304.png" alt="image-20220107192048304" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192810064.png" alt="image-20220107192810064" loading="lazy"></p>
+<h5 id="地址结构例题-！！！"><a href="#地址结构例题-！！！" class="headerlink" title="地址结构例题 ！！！"></a>地址结构例题 ！！！</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107192934172.png" alt="image-20220107192934172" loading="lazy"></p>
+<h5 id="地址变换例题！！！"><a href="#地址变换例题！！！" class="headerlink" title="地址变换例题！！！"></a>地址变换例题！！！</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193201393.png" alt="image-20220107193201393" loading="lazy"></p>
+<h5 id="地址变换机构"><a href="#地址变换机构" class="headerlink" title="地址变换机构"></a>地址变换机构</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193634501.png" alt="image-20220107193634501" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193716448.png" alt="image-20220107193716448" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107193732377.png" alt="image-20220107193732377" loading="lazy"></p>
+<h3 id="分段存储管理方式"><a href="#分段存储管理方式" class="headerlink" title="分段存储管理方式"></a>分段存储管理方式</h3><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107194338533.png" alt="image-20220107194338533" loading="lazy"></p>
+<h5 id="地址变换（逻辑地址-gt-物理地址）"><a href="#地址变换（逻辑地址-gt-物理地址）" class="headerlink" title="地址变换（逻辑地址-&gt;物理地址）"></a>地址变换（逻辑地址-&gt;物理地址）</h5><ol>
+<li>先根据段号S查段表，是否存在段号S ，即判断S与段表长度TL，S&gt;TL，则段号S太大，访问越界，否则 继续2.</li>
+<li>检查段内地址d，将d于该段的段长SL作比较，若d&gt;SL，则发出越界中断信号。否则将该段的基址d与段内地址相加，即可得到要访问的物理地址。</li>
+</ol>
+<h5 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h5><p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200111216.png" alt="image-20220107200111216" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200212680.png" alt="image-20220107200212680" loading="lazy"></p>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200241148.png" alt="image-20220107200241148" loading="lazy"></p>
+<h3 id="作业-3"><a href="#作业-3" class="headerlink" title="作业"></a>作业</h3><table>
+<thead>
+<tr>
+<th>在某系统中，采用固定分区分配管理方式，内存分区（单位字节）情况如图所示，现有大小为15K、53K、110K的多个作业要求进入内存，试画出它们进入内存后的空间分配情况，并说明主存浪费多大？<img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200710241.png" alt="image-20220107200710241" loading="lazy"></th>
+</tr>
+</thead>
+</table>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107200757048.png" alt="image-20220107200757048" loading="lazy"></p>
+<table>
+<thead>
+<tr>
+<th>什么是覆盖？什么是交换？覆盖和交换的区别是什么？</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><p>覆盖：</p>
+<p>把一个程序划分为一系列功能相对独立的程序段（称为覆盖），让执行时并不要求同时装入同存的覆盖组成一组（称为覆盖段），共享主存的同一个区域，从而解决在小的存储空间中运行大作业问题。</p>
+</li>
+<li><p>交换：</p>
+<p>将暂时不用的某个进程及数据部分（或全部）从内存移到外存中去，让出内存空间，同时将某个需要的进程调入内存中，让其运行。交换到外存的进程需要时可以被再次交换回内存中继续执行。</p>
+</li>
+<li><p>区别：</p>
+<ul>
+<li>交换不要求程序员给出程序段之间的覆盖结构，而覆盖要求。</li>
+<li>交换主要在作业或进程之间执行，覆盖技术主要在同一个作业或进程中运行，同时覆盖只能覆盖与覆盖程序段无关的程序段。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>设有一页式存储管理系统，向用户提供的逻辑地址空间最大为64页，每页1024B，内存总共有32个存储块，试问逻辑地址至少应为多少位？内存空间有多大？</th>
+</tr>
+</thead>
+</table>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107201405474.png" alt="image-20220107201405474" loading="lazy"></p>
+<table>
+<thead>
+<tr>
+<th>在一分页存储管理系统中，逻辑地址长度为16位，页面大小为4096B，现有一逻辑地址为2F6AH，且第0、1、2页依次存放在物理块5、10、11中，问相应的物理地址为多少？</th>
+</tr>
+</thead>
+</table>
+<p><img src="/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/image-20220107201426975.png" alt="image-20220107201426975" loading="lazy"></p>
+</div><ul class="post-copyright"><li class="post-copyright-author"><strong>Post author: </strong>黄嘻嘻</li><li class="post-copyright-link"><strong>Post link: </strong><a href="http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/" title="操作系统复习">http://huangxixiyiqi.github.io/2022/01/07/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0/</a></li><li class="post-copyright-license"><strong>Copyright Notice: </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> unless otherwise stated.</li></ul></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2021/12/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/" rel="next" title="计算机系统实践"><span class="post-nav-text">计算机系统实践</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>要不要和我说些什么？</span><br></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2022 </span><span class="with-love" id="animate"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></span><span class="author"> 黄嘻嘻</span></div><div class="powered"><span>Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> v5.4.0</span><span class="footer-separator">|</span><span>Theme - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.7.0</span></div><div class="live_time"><span>本博客已萌萌哒地运行</span><span id="display_live_time"></span><span class="moe-text">(●'◡'●)</span><script>function blog_live_time() {
+  setTimeout(blog_live_time, 1000);
+  const start = new Date('2021-12-01T00:00:00');
+  const now = new Date();
+  const timeDiff = (now.getTime() - start.getTime());
+  const msPerMinute = 60 * 1000;
+  const msPerHour = 60 * msPerMinute;
+  const msPerDay = 24 * msPerHour;
+  const passDay = Math.floor(timeDiff / msPerDay);
+  const passHour = Math.floor((timeDiff % msPerDay) / 60 / 60 / 1000);
+  const passMinute = Math.floor((timeDiff % msPerHour) / 60 / 1000);
+  const passSecond = Math.floor((timeDiff % msPerMinute) / 1000);
+  display_live_time.innerHTML = " " + passDay + " 天 " + passHour + " 小时 " + passMinute + " 分 " + passSecond + " 秒";
+}
+blog_live_time();
+</script></div></footer><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#4fb9b5" stroke-width="2" stroke-linecap="round"></circle></svg></a></div></body></html>
